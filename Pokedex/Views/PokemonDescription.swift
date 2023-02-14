@@ -9,15 +9,25 @@ import SwiftUI
 
 struct PokemonDescription: View {
     var infoURL = ""
-    @State var pokemonInfo = PokemonDescriptionInfo(id: 0, name: "")
+    @State var pokemonInfo = PokemonInfo(id: 0, name: "", height: 0, weight: 0)
     
     var body: some View {
         HStack {
-            Text("\(pokemonInfo.name.capitalized) is pokemon #\(pokemonInfo.id)")
-                .navigationTitle(pokemonInfo.name.capitalized)
+            VStack {
+                CacheableImage(url: pokemonInfo.sprites?.front_default ?? "")
+                Text("No. \(pokemonInfo.id)")
+            }
+            VStack {
+                var height = String(format: "%.2f", Double(pokemonInfo.height) / 10)
+                var weight = String(format: "%.2f", Double(pokemonInfo.weight) / 10)
+                Text("\(pokemonInfo.name.capitalized)")
+                Text("")
+                Text("Height \(height)m")
+                Text("Weight \(weight)kgs")
+            }
         }
             .onAppear {
-                PokeApi().getDescription(url: infoURL) { pokeInfo in
+                PokeApi().getPokemonInfo(url: infoURL) { pokeInfo in
                     self.pokemonInfo = pokeInfo
                 }
             }
