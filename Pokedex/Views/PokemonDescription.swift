@@ -16,11 +16,18 @@ struct PokemonDescription: View {
             VStack {
                 CacheableImage(url: pokemonInfo.sprites?.front_default ?? "")
                 Text("No. \(pokemonInfo.id)")
+                ForEach(getTypes(pokemonTypes: pokemonInfo.types), id: \.self) {
+                    entry in
+                        HStack {
+                            Text("\(entry)")
+                        }
+                    }
+                
             }
             VStack {
-                var height = String(format: "%.2f", Double(pokemonInfo.height) / 10)
-                var weight = String(format: "%.2f", Double(pokemonInfo.weight) / 10)
-                Text("\(pokemonInfo.name.capitalized)")
+                let height = String(format: "%.2f", Double(pokemonInfo.height) / 10)
+                let weight = String(format: "%.2f", Double(pokemonInfo.weight) / 10)
+                Text("\(pokemonInfo.name.capitalized)").font(.title)
                 Text("")
                 Text("Height \(height)m")
                 Text("Weight \(weight)kgs")
@@ -31,6 +38,11 @@ struct PokemonDescription: View {
                     self.pokemonInfo = pokeInfo
                 }
             }
+    }
+    
+    func getTypes(pokemonTypes: [PokemonTypeInfo]?) -> [String] {
+        guard let typesList = pokemonTypes else { return [] }
+        return typesList.map { $0.type.name }
     }
 }
 

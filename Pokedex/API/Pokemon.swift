@@ -17,14 +17,38 @@ struct PokemonInfo: Codable {
     var height: Int
     var weight: Int
     var sprites: PokemonSprites?
+    var types: [PokemonTypeInfo]?
 }
 
 struct PokemonSprites: Codable {
     var front_default: String
 }
 
+struct PokemonTypeInfo: Codable {
+    var type: PokemonType
+}
+
+struct PokemonType: Codable {
+    var name: String
+}
+
 struct PokemonEntry: Codable, Identifiable {
     let id = UUID()
+    var name: String
+    var url: String
+}
+
+struct PokemonSpeciesInfo {
+    var flavor_text_entries: [PokemonFlavorTextEntry]
+}
+
+struct PokemonFlavorTextEntry {
+    var flavorText: String
+    var language: PokemonInfoNameUrl
+    var version: PokemonInfoNameUrl
+}
+
+struct PokemonInfoNameUrl {
     var name: String
     var url: String
 }
@@ -41,6 +65,25 @@ class PokeApi {
             
             DispatchQueue.main.async {
                 completion(pokemonList.results)
+            }
+        }.resume()
+    }
+    
+
+    func getPokemonDescriptionText(id: Int, completion: @escaping ((String) -> ())) {
+        guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon-species/\(id)") else {
+            return
+        }
+        
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard data != nil else {return}
+//            let pokemonSpeciesInfo = try! JSONDecoder().decode(PokemonSpeciesInfo.self, from: data)
+            
+//            pokemonSpeciesInfo.flavor_text_entries.filter()
+            
+            DispatchQueue.main.async {
+                completion("")
             }
         }.resume()
     }
