@@ -13,7 +13,7 @@ struct PokemonImage: View {
     
     var body: some View {
         AsyncImage(url: URL(string: pokemonSprite))
-            .frame(width: 75, height: 75)
+            .frame(width: 96, height: 96)
             .onAppear {
                 let loadedData = UserDefaults.standard.string(forKey: imageLink)
                 

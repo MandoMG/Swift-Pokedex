@@ -15,11 +15,12 @@ struct PokemonDescription: View {
         HStack {
             VStack {
                 CacheableImage(url: pokemonInfo.sprites?.front_default ?? "")
+                    .frame(width: 96, height: 96)
                 Text("No. \(pokemonInfo.id)")
                 ForEach(getTypes(pokemonTypes: pokemonInfo.types), id: \.self) {
                     entry in
                         HStack {
-                            Text("\(entry)")
+                            PokemonTypeBadge(type: entry)
                         }
                     }
                 
