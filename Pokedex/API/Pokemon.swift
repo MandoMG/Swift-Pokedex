@@ -22,6 +22,21 @@ struct PokemonInfo: Codable {
 
 struct PokemonSprites: Codable {
     var front_default: String
+    var other: OtherPokemonSprites
+        
+}
+
+struct OtherPokemonSprites: Codable {
+    var officialArtwork: OfficialArtworkImg
+    
+    enum CodingKeys: String, CodingKey {
+        case officialArtwork = "official-artwork"
+    }
+
+}
+
+struct OfficialArtworkImg: Codable {
+    var front_default: String
 }
 
 struct PokemonTypeInfo: Codable {
@@ -38,24 +53,24 @@ struct PokemonEntry: Codable, Identifiable {
     var url: String
 }
 
-struct PokemonSpeciesInfo {
+struct PokemonSpeciesInfo: Codable {
     var flavor_text_entries: [PokemonFlavorTextEntry]
 }
 
-struct PokemonFlavorTextEntry {
-    var flavorText: String
+struct PokemonFlavorTextEntry: Codable {
+    var flavor_text: String
     var language: PokemonInfoNameUrl
     var version: PokemonInfoNameUrl
 }
 
-struct PokemonInfoNameUrl {
+struct PokemonInfoNameUrl: Codable {
     var name: String
     var url: String
 }
 
 class PokeApi {
     func getData(completion: @escaping (([PokemonEntry]) -> ())) {
-        guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=151") else {
+        guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=251") else {
             return
         }
         
@@ -77,13 +92,13 @@ class PokeApi {
         
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard data != nil else {return}
-//            let pokemonSpeciesInfo = try! JSONDecoder().decode(PokemonSpeciesInfo.self, from: data)
+            guard let data = data else {return}
+            let pokemonSpeciesInfo = try! JSONDecoder().decode(PokemonSpeciesInfo.self, from: data)
             
-//            pokemonSpeciesInfo.flavor_text_entries.filter()
+            let filteredText = pokemonSpeciesInfo.flavor_text_entries.filter { $0.version.name == "silver" && $0.language.name == "en" }
             
             DispatchQueue.main.async {
-                completion("")
+                completion(filteredText[0].flavor_text)
             }
         }.resume()
     }
