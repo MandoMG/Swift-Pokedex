@@ -32,7 +32,7 @@ struct ContentView: View {
                 }
             }
             .searchable(text: $searchText)
-            .autocorrectionDisabled() 
+            .autocorrectionDisabled()
             .navigationTitle("Pokedex")
         }
     }

@@ -9,6 +9,10 @@ import SwiftUI
 
 @main
 struct PokedexApp: App {
+    init () {
+        PokemonShortcuts.updateAppShortcutParameters()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

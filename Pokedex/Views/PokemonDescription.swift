@@ -51,42 +51,6 @@ struct PokemonDescription: View {
                 }
             }
         }
-
-//        HStack {
-//            VStack {
-////                CacheableImage(url: pokemonInfo.sprites?.front_default ?? "")
-////                    .frame(width: 96, height: 96)
-//                CacheableImage(url: pokemonInfo.sprites?.other.officialArtwork.front_default ?? "")
-//                    .frame(width: 96, height: 96)
-//                Text("No. \(pokemonInfo.id)")
-//                ForEach(getTypes(pokemonTypes: pokemonInfo.types), id: \.self) {
-//                    entry in
-//                        HStack {
-//                            PokemonTypeBadge(type: entry)
-//                        }
-//                    }
-//                
-//            }
-//            VStack {
-//                let height = String(format: "%.2f", Double(pokemonInfo.height) / 10)
-//                let weight = String(format: "%.2f", Double(pokemonInfo.weight) / 10)
-//                
-//                Text("\(pokemonInfo.name.capitalized)").font(.title)
-//                Text("")
-//                Text("Height \(height)m")
-//                Text("Weight \(weight)kgs")
-//                Text("\(description)").padding(10)
-//            }
-//        }
-//            .onAppear {
-//                PokeApi().getPokemonInfo(url: infoURL) { pokeInfo in
-//                    self.pokemonInfo = pokeInfo
-//                    
-//                    PokeApi().getPokemonDescriptionText(id: pokemonInfo.id) { pokeDescription in
-//                        self.description = pokeDescription
-//                    }
-//                }
-//            }
     }
     
     func getTypes(pokemonTypes: [PokemonTypeInfo]?) -> [String] {
